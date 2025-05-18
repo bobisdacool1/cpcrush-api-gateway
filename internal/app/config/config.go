@@ -6,12 +6,12 @@ import (
 
 type (
 	AppConfig struct {
-		DbConn string
+		DBConn string
 	}
 )
 
 func NewConfig() AppConfig {
 	return AppConfig{
-		DbConn: os.Getenv("DB_CONN"),
+		DBConn: os.Getenv("DB_CONN"),
 	}
 }

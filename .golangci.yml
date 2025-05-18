@@ -1,0 +1,75 @@
+run:
+  timeout: 3m
+
+linters:
+  enable:
+    - bodyclose
+    - containedctx
+    - dogsled
+    - dupl
+    - errcheck
+    - errorlint
+    - copyloopvar
+    - funlen
+    - gochecknoinits
+    - gochecknoglobals
+    - gocognit
+    - goconst
+    - gocritic
+    - godot
+    - err113
+    - gofmt
+    - gofumpt
+    - goimports
+    - goprintffuncname
+    - gosec
+    - gosimple
+    - govet
+    - ineffassign
+    - makezero
+    - misspell
+    - nakedret
+    - nilerr
+    - noctx
+    - prealloc
+    - revive
+    - staticcheck
+    - stylecheck
+    - typecheck
+    - unconvert
+    - unparam
+    - unused
+
+linters-settings:
+  stylecheck:
+    checks:
+      - all
+      - '-ST1000'
+
+  gocognit:
+    min-complexity: 15
+
+  funlen:
+    lines: 60
+    statements: 40
+
+  revive:
+    severity: warning
+    rules:
+      - name: indent-error-flow
+        disabled: true
+      - name: line-length-limit
+        disabled: true
+      - name: var-naming
+        disabled: true
+
+issues:
+  exclude-use-default: false
+  max-issues-per-linter: 0
+  max-same-issues: 0
+  exclude-dirs:
+    - vendor
+
+tests:
+  skip-dirs:
+    - testdata

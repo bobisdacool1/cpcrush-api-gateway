@@ -34,7 +34,7 @@ func TestGetHealthcheck(t *testing.T) {
 
 	expected := `{"status":"ok"}`
 	buf := make([]byte, resp.ContentLength)
-	resp.Body.Read(buf)
+	_, _ = resp.Body.Read(buf)
 	_ = resp.Body.Close()
 	assert.JSONEq(t, expected, string(buf))
 }

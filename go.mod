@@ -1,6 +1,6 @@
 module github.com/bobisdacool1/cpcrush/api-gateway
 
-go 1.24.0
+go 1.23.0
 
 require (
 	github.com/gofiber/fiber/v3 v3.0.0-beta.4
