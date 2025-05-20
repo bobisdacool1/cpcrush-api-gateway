@@ -1,6 +1,9 @@
-package main
+package testutils
 
 import (
+	"context"
+	"testing"
+
 	"github.com/gofiber/fiber/v3"
 	"go.uber.org/fx"
 
@@ -11,8 +14,13 @@ import (
 	"github.com/bobisdacool1/cpcrush/api-gateway/internal/app/usecase/healthcheck"
 )
 
-func main() {
-	app := fx.New(
+func NewTestApplication(t *testing.T) *transport.Application {
+	t.Helper()
+
+	var app *transport.Application
+	var hh *handler.HealthcheckHandler
+
+	fxApp := fx.New(
 		fx.Provide(
 			config.MustNewConfig,
 			logger.NewLogger,
@@ -21,6 +29,7 @@ func main() {
 			transport.NewApplication,
 			fiber.New,
 		),
+		fx.Populate(&app, &hh),
 		fx.Invoke(
 			transport.RegisterRoutes,
 			func(app *transport.Application, lc fx.Lifecycle) {
@@ -29,5 +38,15 @@ func main() {
 		),
 	)
 
-	app.Run()
+	if err := fxApp.Start(context.Background()); err != nil {
+		t.Fatalf("failed to start fxApp: %v", err)
+	}
+
+	t.Cleanup(func() {
+		if err := fxApp.Stop(context.Background()); err != nil {
+			t.Logf("failed to stop fxApp: %v", err)
+		}
+	})
+
+	return app
 }

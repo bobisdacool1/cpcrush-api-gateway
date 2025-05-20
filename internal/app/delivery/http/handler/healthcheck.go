@@ -1,15 +1,19 @@
 package handler
 
 import (
-	"net/http"
-
 	"github.com/gofiber/fiber/v3"
+
+	"github.com/bobisdacool1/cpcrush/api-gateway/internal/app/usecase/healthcheck"
 )
 
-func GetHealthcheck(c fiber.Ctx) error {
-	c.Status(http.StatusOK)
+type HealthcheckHandler struct {
+	service healthcheck.Service
+}
 
-	return c.JSON(fiber.Map{
-		"status": "ok",
-	})
+func NewHealthcheckHandler(s healthcheck.Service) *HealthcheckHandler {
+	return &HealthcheckHandler{service: s}
+}
+
+func (h *HealthcheckHandler) Get(c fiber.Ctx) error {
+	return c.JSON(h.service.Ping())
 }
